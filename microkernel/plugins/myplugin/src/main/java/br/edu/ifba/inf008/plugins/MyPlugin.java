@@ -10,8 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 
-public class MyPlugin implements IPlugin
-{
+public class MyPlugin implements IPlugin {
     public boolean init() {
         IUIController uiController = ICore.getInstance().getUIController();
 
@@ -23,7 +22,7 @@ public class MyPlugin implements IPlugin
             }
         });
 
-        uiController.createTab("new tab", new Rectangle(200,200, Color.LIGHTSTEELBLUE));
+        uiController.createTab("new tab", new Rectangle(200, 200, Color.LIGHTSTEELBLUE));
 
         return true;
     }
