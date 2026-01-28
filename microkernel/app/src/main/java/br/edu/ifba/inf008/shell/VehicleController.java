@@ -15,7 +15,7 @@ public class VehicleController implements IVehicleController {
     public void registerVehicleType(IVehicle plugin) {
         String key = plugin.getType().toUpperCase();
         this.pluginMap.put(key,plugin);
-        System.out.println("Plugin:" + plugin.getType() + "registrado!");
+        System.out.println("Plugin:" + plugin.getType() + " registrado!");
     }
 
     public IVehicle getPluginByType(String vehicleType) {
