@@ -5,6 +5,12 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/microkernel/pom.xml" />
+        <option value="$PROJECT_DIR$/microkernel/plugins/vehicles/vanplugin/pom.xml" />
+        <option value="$PROJECT_DIR$/microkernel/plugins/vehicles/suvplugin/pom.xml" />
+        <option value="$PROJECT_DIR$/microkernel/plugins/vehicles/luxuryplugin/pom.xml" />
+        <option value="$PROJECT_DIR$/microkernel/plugins/vehicles/electricplugin/pom.xml" />
+        <option value="$PROJECT_DIR$/microkernel/plugins/vehicles/economicplugin/pom.xml" />
+        <option value="$PROJECT_DIR$/microkernel/plugins/vehicles/compact/pom.xml" />
       </list>
     </option>
   </component>

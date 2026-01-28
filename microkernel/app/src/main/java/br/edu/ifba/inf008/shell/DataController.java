@@ -26,7 +26,7 @@ public class DataController implements IDataController {
             return emails;
     }
 
-    @Override
+
     public List<String> getVehicle() {
         return List.of();
     }

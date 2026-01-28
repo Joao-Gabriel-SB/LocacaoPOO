@@ -11,6 +11,7 @@ public abstract class ICore
     public abstract IIOController getIOController();
     public abstract IPluginController getPluginController();
     public abstract IDataController getDataController();
+    public abstract IVehicleController getVehicleController();
 
     protected static ICore instance = null;
 }

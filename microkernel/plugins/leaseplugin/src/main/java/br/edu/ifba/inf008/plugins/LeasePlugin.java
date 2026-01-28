@@ -1,9 +1,6 @@
 package br.edu.ifba.inf008.plugins;
 
-import br.edu.ifba.inf008.interfaces.ICore;
-import br.edu.ifba.inf008.interfaces.IDataController;
-import br.edu.ifba.inf008.interfaces.IPlugin;
-import br.edu.ifba.inf008.interfaces.IUIController;
+import br.edu.ifba.inf008.interfaces.*;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
@@ -15,18 +12,18 @@ public class LeasePlugin implements IPlugin {
 
     private IUIController uiController;
     private IDataController dataController;
+    private IVehicleController vehicleController;
 
     public boolean init() {
 
         this.uiController = ICore.getInstance().getUIController();
         this.dataController = ICore.getInstance().getDataController();
+        this.vehicleController = ICore.getInstance().getVehicleController();
 
         MenuItem menuItem = uiController.createMenuItem("Locação", "Locação");
 
-        menuItem.setOnAction(e -> {
-
-                    uiController.createTab("Nova Locação", createMainLayout());
-                }
+        menuItem.setOnAction(e ->
+                uiController.createTab("Nova Locação", createMainLayout())
         );
 
         System.out.println(">>> PLUGIN DE LOCAÇÃO: Fui carregado com sucesso!");
@@ -68,7 +65,7 @@ public class LeasePlugin implements IPlugin {
         vehicles.setPromptText("Escolha um carro");
 
         try {
-            vehicles.getItems().addAll("Teste carro 1", "Teste carro 2");
+            vehicles.getItems().addAll(this.vehicleController.getVehiclesType());
         } catch (Exception e) {
             System.err.println("Erro ao buscar os carros: " + e.getMessage());
         }
@@ -79,10 +76,10 @@ public class LeasePlugin implements IPlugin {
         TableView<String> table = new TableView<>();
         table.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
-        TableColumn<String, String> column = new TableColumn<>("Veículo Disponível");
-        column.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()));
+        TableColumn<String, String> ColumnNames = new TableColumn<>("Veículos Disponíveis");
+        ColumnNames.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()));
 
-        table.getColumns().add(column);
+        table.getColumns().add(ColumnNames);
 
         table.getItems().addAll("Fusca 1970 - ABC-1234", "Ferrari Vermelha - ZIP-9999");
 
@@ -115,8 +112,8 @@ public class LeasePlugin implements IPlugin {
         confirmButton.setPrefHeight(45);
         confirmButton.setStyle(
                 "-fx-background-color: #3CB371;" +
-                "-fx-text-fill: white;" +
-                "-fx-font-weight: bold;"
+                        "-fx-text-fill: white;" +
+                        "-fx-font-weight: bold;"
         );
         return confirmButton;
     }

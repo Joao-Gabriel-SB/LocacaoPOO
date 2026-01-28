@@ -19,6 +19,7 @@ public class Core extends ICore {
         return true;
     }
     public IDataController getDataController() { return dataController; };
+    public IVehicleController getVehicleController() { return vehicleController; }
 
     public IUIController getUIController() {
         return UIController.getInstance();
@@ -40,4 +41,5 @@ public class Core extends ICore {
     private final IIOController ioController = new IOController();
     private final IPluginController pluginController = new PluginController();
     private final IDataController dataController = new DataController();
+    private final IVehicleController vehicleController = new VehicleController();
 }

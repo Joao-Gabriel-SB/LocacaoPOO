@@ -7,9 +7,15 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="interfaces" />
-        <module name="leaseplugin" />
-        <module name="executable" />
+        <module name="vanplugin" />
         <module name="myplugin" />
+        <module name="economicplugin" />
+        <module name="compactplugin" />
+        <module name="suvplugin" />
+        <module name="leaseplugin" />
+        <module name="luxuryplugin" />
+        <module name="electricplugin" />
+        <module name="executable" />
       </profile>
     </annotationProcessing>
   </component>

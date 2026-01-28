@@ -1,0 +1,29 @@
+package br.edu.ifba.inf008.shell;
+
+import br.edu.ifba.inf008.interfaces.IVehicle;
+import br.edu.ifba.inf008.interfaces.IVehicleController;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class VehicleController implements IVehicleController {
+
+    private final Map<String, IVehicle> pluginMap = new HashMap<>();
+
+    public void registerVehicleType(IVehicle plugin) {
+        String key = plugin.getType().toUpperCase();
+        this.pluginMap.put(key,plugin);
+        System.out.println("Plugin:" + plugin.getType() + "registrado!");
+    }
+
+    public IVehicle getPluginByType(String vehicleType) {
+        return this.pluginMap.get(vehicleType);
+    }
+
+    public List<String> getVehiclesType() {
+        return new ArrayList<>(this.pluginMap.keySet());
+    }
+
+}
