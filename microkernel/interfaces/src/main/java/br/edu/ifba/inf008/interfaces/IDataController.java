@@ -5,4 +5,5 @@ import java.util.List;
 public interface IDataController {
     List<String> getClientsEmails();
     List<String> getVehicle();
+    List<IVehicle> getVehicleList(String typeName);
 }

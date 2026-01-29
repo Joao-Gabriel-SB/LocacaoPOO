@@ -7,12 +7,14 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class LeasePlugin implements IPlugin {
 
     private IUIController uiController;
     private IDataController dataController;
     private IVehicleController vehicleController;
+    private TableView<IVehicle> table;
 
     public boolean init() {
 
@@ -27,6 +29,8 @@ public class LeasePlugin implements IPlugin {
         );
 
         System.out.println(">>> PLUGIN DE LOCAÇÃO: Fui carregado com sucesso!");
+
+        dataController.getVehicleList("SUV");
         return true;
     }
 
@@ -66,24 +70,32 @@ public class LeasePlugin implements IPlugin {
 
         try {
             vehicles.getItems().addAll(this.vehicleController.getVehiclesType());
+
+            vehicles.setOnAction(e -> {
+                String chosenType = vehicles.getValue();
+                List<IVehicle> vehiclesList = this.dataController.getVehicleList(chosenType);
+                this.table.getItems().clear();
+                this.table.getItems().addAll(vehiclesList);
+            });
         } catch (Exception e) {
             System.err.println("Erro ao buscar os carros: " + e.getMessage());
         }
         return vehicles;
     }
 
-    private TableView<String> createTableView() {
-        TableView<String> table = new TableView<>();
-        table.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+    private TableView<IVehicle> createTableView() {
+        this.table = new TableView<>();
 
-        TableColumn<String, String> ColumnNames = new TableColumn<>("Veículos Disponíveis");
-        ColumnNames.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()));
+        TableColumn<IVehicle, String> colModel = new TableColumn<>("Modelo");
 
-        table.getColumns().add(ColumnNames);
+        colModel.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getModel()));
 
-        table.getItems().addAll("Fusca 1970 - ABC-1234", "Ferrari Vermelha - ZIP-9999");
+        TableColumn<IVehicle, String> colPlate = new TableColumn<>("Placa");
+        colPlate.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getPlate()));
 
-        return table;
+        this.table.getColumns().addAll(colModel, colPlate);
+
+        return this.table;
     }
 
     private DatePicker createDatePicker() {
