@@ -1,9 +1,9 @@
 package br.edu.ifba.inf008.plugins;
 
 import br.edu.ifba.inf008.interfaces.ICore;
-import br.edu.ifba.inf008.interfaces.IVehicle;
+import br.edu.ifba.inf008.interfaces.IVehicleTypePlugin;
 
-public class CompactPlugin implements IVehicle {
+public class CompactPlugin implements IVehicleTypePlugin {
     @Override
     public String getType() {
         return "COMPACT";

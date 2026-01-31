@@ -11,6 +11,7 @@
         <module name="myplugin" />
         <module name="economicplugin" />
         <module name="compactplugin" />
+        <module name="piereportplugin" />
         <module name="suvplugin" />
         <module name="leaseplugin" />
         <module name="luxuryplugin" />

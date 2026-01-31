@@ -19,6 +19,7 @@
         <module>plugins/vanplugin</module>
         <module>plugins/electricplugin</module>
         <module>plugins/luxuryplugin</module>
+        <module>plugins/piereportplugin</module>
     </modules>
 
     <properties>

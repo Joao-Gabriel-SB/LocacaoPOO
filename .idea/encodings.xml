@@ -11,6 +11,8 @@
     <file url="file://$PROJECT_DIR$/microkernel/plugins/leaseplugin/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/microkernel/plugins/luxuryplugin/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/microkernel/plugins/luxuryplugin/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/microkernel/plugins/piereportplugin/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/microkernel/plugins/piereportplugin/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/microkernel/plugins/suvplugin/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/microkernel/plugins/suvplugin/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/microkernel/plugins/vanplugin/src/main/java" charset="UTF-8" />

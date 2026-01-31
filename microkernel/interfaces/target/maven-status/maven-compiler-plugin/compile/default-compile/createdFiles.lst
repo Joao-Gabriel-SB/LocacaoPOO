@@ -1,3 +1,5 @@
 br/edu/ifba/inf008/interfaces/IVehicle.class
 br/edu/ifba/inf008/interfaces/IVehicleController.class
+br/edu/ifba/inf008/interfaces/IReportPlugin.class
 br/edu/ifba/inf008/interfaces/IDataController.class
+br/edu/ifba/inf008/interfaces/IVehicleTypePlugin.class
