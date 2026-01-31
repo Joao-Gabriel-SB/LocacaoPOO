@@ -37,17 +37,19 @@ public class LeasePlugin implements IPlugin {
     }
 
     private VBox createMainLayout() {
-        VBox layout = new VBox(20);
-
+        VBox layout = new VBox(15);
         layout.setPadding(new Insets(20));
+
         layout.getChildren().addAll(
                 createEmailBox(),
                 createVehicleBox(),
                 createTableView(),
+                new Separator(),
                 createLabeledDatePicker("Início Locação:"),
                 createLabeledDatePicker("Fim Locação:"),
-                createTextField("Local de Retirada", false),
-                createTextField("R$ 0,00", true),
+                createLabeledTextField("Local Retirada:", "Ex: Downtown", 100),
+                createLabeledCurrencyField("Valor Diária:", "0.00"),
+                createLabeledCurrencyField("Valor Seguro:", "0.00"),
                 createConfirmButton()
         );
         return layout;
@@ -116,26 +118,49 @@ public class LeasePlugin implements IPlugin {
         label.setPrefWidth(120);
 
         DatePicker datePicker = new DatePicker();
-        datePicker.setPromptText("Selecione uma data:");
-//        datePicker.setMaxWidth(Double.MAX_VALUE);
+        datePicker.setPrefWidth(250);
         datePicker.setValue(LocalDate.now());
 
-        HBox hbox = new HBox(4);
+        HBox hbox = new HBox(10);
         hbox.setAlignment(Pos.CENTER_LEFT);
         hbox.getChildren().addAll(label, datePicker);
-
         return hbox;
     }
 
-    private TextField createTextField(String value, Boolean readOnly) {
+    private HBox createLabeledCurrencyField(String labelText, String prompt) {
+        Label label = new Label(labelText);
+        label.setPrefWidth(120);
+
         TextField textField = new TextField();
-        if (readOnly) {
-            textField.setText(value);
-        } else {
-            textField.setPromptText(value);
-        }
-        textField.setEditable(!readOnly);
-        return textField;
+        textField.setPromptText(prompt);
+        textField.setPrefWidth(250);
+
+        String regex = "\\d{0,8}([\\.,]\\d{0,2})?";
+        textField.setTextFormatter(new TextFormatter<>(change ->
+                change.getControlNewText().matches(regex) ? change : null));
+
+        HBox hbox = new HBox(10);
+        hbox.setAlignment(Pos.CENTER_LEFT);
+        hbox.getChildren().addAll(label, textField);
+        return hbox;
+    }
+
+    private HBox createLabeledTextField(String labelText, String prompt, int limit) {
+        Label label = new Label(labelText);
+        label.setPrefWidth(120);
+
+        TextField textField = new TextField();
+        textField.setPromptText(prompt);
+        textField.setPrefWidth(250);
+
+        textField.textProperty().addListener((obs, oldValue, newValue) -> {
+            if (newValue.length() > limit) textField.setText(oldValue);
+        });
+
+        HBox hbox = new HBox(10);
+        hbox.setAlignment(Pos.CENTER_LEFT);
+        hbox.getChildren().addAll(label, textField);
+        return hbox;
     }
 
     private Button createConfirmButton() {
