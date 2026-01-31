@@ -31,10 +31,10 @@ public class DataController implements IDataController {
     public List<IVehicle> getVehicleList(String typeName) {
         List<IVehicle> vehicleList = new ArrayList<>();
 
-        String sql = "SELECT v.vehicle_id, v.model, v.license_plate " +
+        String sql = "SELECT v.vehicle_id, v.make, v.model, v.year, v.fuel_type, v.transmission, v.mileage " +
                 "FROM vehicles v " +
                 "INNER JOIN vehicle_types vt ON v.type_id = vt.type_id " +
-                "WHERE vt.type_name = ?";
+                "WHERE vt.type_name = ? AND v.status = 'AVAILABLE'";
 
         String url = "jdbc:mariadb://localhost:3307/car_rental_system";
 
@@ -47,8 +47,12 @@ public class DataController implements IDataController {
             while (rs.next()) {
                 vehicleList.add(new VehicleDTO(
                         rs.getString("vehicle_id"),
+                        rs.getString("make"),
                         rs.getString("model"),
-                        rs.getString("license_plate")
+                        rs.getString("year"),
+                        rs.getString("fuel_type"),
+                        rs.getString("transmission"),
+                        rs.getString("mileage")
                 ));
             }
         } catch (Exception e) {

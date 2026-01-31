@@ -3,7 +3,9 @@ package br.edu.ifba.inf008.plugins;
 import br.edu.ifba.inf008.interfaces.*;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.time.LocalDate;
@@ -42,8 +44,8 @@ public class LeasePlugin implements IPlugin {
                 createEmailBox(),
                 createVehicleBox(),
                 createTableView(),
-                createDatePicker(),
-                createDatePicker(),
+                createLabeledDatePicker("Início Locação:"),
+                createLabeledDatePicker("Fim Locação:"),
                 createTextField("Local de Retirada", false),
                 createTextField("R$ 0,00", true),
                 createConfirmButton()
@@ -86,24 +88,43 @@ public class LeasePlugin implements IPlugin {
     private TableView<IVehicle> createTableView() {
         this.table = new TableView<>();
 
-        TableColumn<IVehicle, String> colModel = new TableColumn<>("Modelo");
+        TableColumn<IVehicle, String> colMake = new TableColumn<>("Marca");
+        colMake.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getMake()));
 
+        TableColumn<IVehicle, String> colModel = new TableColumn<>("Modelo");
         colModel.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getModel()));
 
-        TableColumn<IVehicle, String> colPlate = new TableColumn<>("Placa");
-        colPlate.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getPlate()));
+        TableColumn<IVehicle, String> colYear = new TableColumn<>("Ano");
+        colYear.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getYear()));
 
-        this.table.getColumns().addAll(colModel, colPlate);
+        TableColumn<IVehicle, String> colFuelType = new TableColumn<>("Combustível");
+        colFuelType.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getFuelType()));
+
+        TableColumn<IVehicle, String> colTransmission = new TableColumn<>("Câmbio");
+        colTransmission.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getTransmission()));
+
+        TableColumn<IVehicle, String> colMileage = new TableColumn<>("Quilometragem");
+        colMileage.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getMileage()));
+
+        this.table.getColumns().addAll(colMake, colModel, colYear, colFuelType, colTransmission, colMileage);
 
         return this.table;
     }
 
-    private DatePicker createDatePicker() {
+    private HBox createLabeledDatePicker(String labelText) {
+        Label label = new Label(labelText);
+        label.setPrefWidth(120);
+
         DatePicker datePicker = new DatePicker();
         datePicker.setPromptText("Selecione uma data:");
 //        datePicker.setMaxWidth(Double.MAX_VALUE);
         datePicker.setValue(LocalDate.now());
-        return datePicker;
+
+        HBox hbox = new HBox(4);
+        hbox.setAlignment(Pos.CENTER_LEFT);
+        hbox.getChildren().addAll(label, datePicker);
+
+        return hbox;
     }
 
     private TextField createTextField(String value, Boolean readOnly) {
