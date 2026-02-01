@@ -80,7 +80,6 @@ public class LeasePlugin implements IPlugin {
             vehicles.setOnAction(e -> {
                 String chosenType = vehicles.getValue();
                 List<IVehicle> vehiclesList = this.dao.getVehiclesByType(chosenType);
-//                        .getVehicleList(chosenType);
                 this.table.getItems().clear();
                 this.table.getItems().addAll(vehiclesList);
             });

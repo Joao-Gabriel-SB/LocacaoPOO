@@ -20,6 +20,7 @@
         <module>plugins/electricplugin</module>
         <module>plugins/luxuryplugin</module>
         <module>plugins/piereportplugin</module>
+        <module>plugins/tablereportplugin</module>
     </modules>
 
     <properties>

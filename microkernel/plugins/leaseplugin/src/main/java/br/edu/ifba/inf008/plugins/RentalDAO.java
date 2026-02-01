@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RentalDAO {
-    IDataController dataController = ICore.getInstance().getDataController();
     ICore core = ICore.getInstance();
+    IDataController dataController = core.getDataController();
 
     public void save(){
 

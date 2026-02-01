@@ -9,7 +9,6 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
@@ -50,6 +49,7 @@ public class PieReportPlugin implements IReportPlugin {
     public PieChart createPieChart() {
         PieChart pieChart = new PieChart();
         pieChart.setTitle("Distribuição por tipo de combustível");
+        VBox.setVgrow(pieChart, Priority.ALWAYS);
         values.forEach(dto -> {
                     String label = String.format("%s %s%%",dto.fuel_type,dto.percentage);
                     String color = "-fx-pie-color: " + dto.color + ";";

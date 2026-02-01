@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.application.Platform;
@@ -47,7 +48,7 @@ public class UIController extends Application implements IUIController {
         tabPane.setSide(Side.TOP);
 
         vBox.getChildren().addAll(tabPane);
-
+        VBox.setVgrow(tabPane, Priority.ALWAYS);
         Scene scene = new Scene(vBox, 960, 600);
 
         primaryStage.setScene(scene);
