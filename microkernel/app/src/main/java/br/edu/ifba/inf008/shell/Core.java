@@ -1,8 +1,6 @@
 package br.edu.ifba.inf008.shell;
 
 import br.edu.ifba.inf008.interfaces.*;
-import javafx.application.Application;
-import javafx.application.Platform;
 
 public class Core extends ICore {
     private Core() {}
@@ -19,7 +17,8 @@ public class Core extends ICore {
         return true;
     }
     public IDataController getDataController() { return dataController; };
-    public IVehicleController getVehicleController() { return vehicleController; }
+    public IVehicleTypePluginController getVehicleTypePluginController() { return vehicleController; }
+
 
     public IUIController getUIController() {
         return UIController.getInstance();
@@ -37,9 +36,15 @@ public class Core extends ICore {
         return pluginController;
     }
 
+    @Override
+    public IVehicle buildNewVehicle(String id, String make, String model, String year, String fuel_type, String transmission, String mileage) {
+        return new VehicleDTO(id,make,model,year,fuel_type,transmission,mileage);
+    }
+
+
     private final IAuthenticationController authenticationController = new AuthenticationController();
     private final IIOController ioController = new IOController();
     private final IPluginController pluginController = new PluginController();
     private final IDataController dataController = new DataController();
-    private final IVehicleController vehicleController = new VehicleController();
+    private final IVehicleTypePluginController vehicleController = new VehicleTypePluginController();
 }

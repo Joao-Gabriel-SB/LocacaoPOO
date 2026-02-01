@@ -4,17 +4,24 @@ import br.edu.ifba.inf008.interfaces.ICore;
 import br.edu.ifba.inf008.interfaces.IReportPlugin;
 import br.edu.ifba.inf008.interfaces.IUIController;
 import javafx.scene.chart.PieChart;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.VBox;
+
 
 public class PieReportPlugin implements IReportPlugin {
 
     IUIController uiController = ICore.getInstance().getUIController();
     @Override
     public boolean init() {
-        uiController.createMenuItem("Relatório 1", "Relatório 1");
+        MenuItem menuItem = uiController.createMenuItem("Relatório 1", "Relatório 1");
 
         VBox teste = new VBox(15);
         teste.getChildren().add(pieChart());
+
+        menuItem.setOnAction(e->
+                uiController.createTab("relatório 1",teste)
+        );
+
         return true;
     }
 

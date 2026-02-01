@@ -1,14 +1,14 @@
 package br.edu.ifba.inf008.shell;
 
 import br.edu.ifba.inf008.interfaces.IVehicleTypePlugin;
-import br.edu.ifba.inf008.interfaces.IVehicleController;
+import br.edu.ifba.inf008.interfaces.IVehicleTypePluginController;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class VehicleController implements IVehicleController {
+public class VehicleTypePluginController implements IVehicleTypePluginController {
 
     private final Map<String, IVehicleTypePlugin> pluginMap = new HashMap<>();
 

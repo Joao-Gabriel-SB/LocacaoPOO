@@ -16,7 +16,7 @@ public class CompactPlugin implements IVehicleTypePlugin {
 
     @Override
     public boolean init() {
-        ICore.getInstance().getVehicleController().registerVehicleType(this);
+        ICore.getInstance().getVehicleTypePluginController().registerVehicleType(this);
         return true;
     }
 }

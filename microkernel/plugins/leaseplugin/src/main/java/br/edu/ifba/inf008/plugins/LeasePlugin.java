@@ -15,14 +15,16 @@ public class LeasePlugin implements IPlugin {
 
     private IUIController uiController;
     private IDataController dataController;
-    private IVehicleController vehicleController;
+    private IVehicleTypePluginController vehicleController;
+    private RentalDAO dao;
     private TableView<IVehicle> table;
 
     public boolean init() {
 
         this.uiController = ICore.getInstance().getUIController();
         this.dataController = ICore.getInstance().getDataController();
-        this.vehicleController = ICore.getInstance().getVehicleController();
+        this.vehicleController = ICore.getInstance().getVehicleTypePluginController();
+        this.dao = new RentalDAO();
 
         MenuItem menuItem = uiController.createMenuItem("Locação", "Locação");
 
@@ -60,7 +62,7 @@ public class LeasePlugin implements IPlugin {
         emails.setPromptText("Escolha um email:");
 
         try {
-            emails.getItems().addAll(this.dataController.getClientsEmails());
+            emails.getItems().addAll(this.dao.getClientsEmails());
 
         } catch (Exception e) {
             System.err.println("Falha ao buscar emails: " + e.getMessage());
@@ -77,7 +79,8 @@ public class LeasePlugin implements IPlugin {
 
             vehicles.setOnAction(e -> {
                 String chosenType = vehicles.getValue();
-                List<IVehicle> vehiclesList = this.dataController.getVehicleList(chosenType);
+                List<IVehicle> vehiclesList = this.dao.getVehiclesByType(chosenType);
+//                        .getVehicleList(chosenType);
                 this.table.getItems().clear();
                 this.table.getItems().addAll(vehiclesList);
             });

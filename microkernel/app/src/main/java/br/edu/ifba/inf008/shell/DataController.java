@@ -1,6 +1,8 @@
 package br.edu.ifba.inf008.shell;
 
 import br.edu.ifba.inf008.interfaces.IDataController;
+import br.edu.ifba.inf008.interfaces.ISqlQuery;
+import br.edu.ifba.inf008.interfaces.ISqlTransac;
 import br.edu.ifba.inf008.interfaces.IVehicle;
 
 import java.sql.Connection;
@@ -12,6 +14,10 @@ import java.util.List;
 import static java.sql.DriverManager.getConnection;
 
 public class DataController implements IDataController {
+
+    private String url = "jdbc:mariadb://localhost:3307/car_rental_system";
+    private String user = "root";
+    private String pass = "root";
 
     public List<String> getClientsEmails() {
         List<String> emails = new ArrayList<>();
@@ -62,8 +68,21 @@ public class DataController implements IDataController {
         return vehicleList;
     }
 
+    @Override
+    public <T> T search(ISqlQuery<T> order) {
+        try (Connection conn = getConnection(url,user, pass)){
+            return order.search(conn);
+        } catch (Exception e) {
+            throw new RuntimeException("Erro na busca do plugin", e);
+        }
+    }
 
-    public List<String> getVehicle() {
-        return List.of();
+    @Override
+    public void runTransaction(ISqlTransac order) {
+        try (Connection conn = getConnection(url, user, pass)){
+            order.runTransaction(conn);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

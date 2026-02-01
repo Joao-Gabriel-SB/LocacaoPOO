@@ -5,7 +5,10 @@
 /home/joaog/Documentos/trabalho-INF008/microkernel/interfaces/src/main/java/br/edu/ifba/inf008/interfaces/IPlugin.java
 /home/joaog/Documentos/trabalho-INF008/microkernel/interfaces/src/main/java/br/edu/ifba/inf008/interfaces/IPluginController.java
 /home/joaog/Documentos/trabalho-INF008/microkernel/interfaces/src/main/java/br/edu/ifba/inf008/interfaces/IReportPlugin.java
+/home/joaog/Documentos/trabalho-INF008/microkernel/interfaces/src/main/java/br/edu/ifba/inf008/interfaces/ISqlQuery.java
+/home/joaog/Documentos/trabalho-INF008/microkernel/interfaces/src/main/java/br/edu/ifba/inf008/interfaces/ISqlTransac.java
 /home/joaog/Documentos/trabalho-INF008/microkernel/interfaces/src/main/java/br/edu/ifba/inf008/interfaces/IUIController.java
 /home/joaog/Documentos/trabalho-INF008/microkernel/interfaces/src/main/java/br/edu/ifba/inf008/interfaces/IVehicle.java
 /home/joaog/Documentos/trabalho-INF008/microkernel/interfaces/src/main/java/br/edu/ifba/inf008/interfaces/IVehicleController.java
 /home/joaog/Documentos/trabalho-INF008/microkernel/interfaces/src/main/java/br/edu/ifba/inf008/interfaces/IVehicleTypePlugin.java
+/home/joaog/Documentos/trabalho-INF008/microkernel/interfaces/src/main/java/br/edu/ifba/inf008/interfaces/IVehicleTypePluginController.java
