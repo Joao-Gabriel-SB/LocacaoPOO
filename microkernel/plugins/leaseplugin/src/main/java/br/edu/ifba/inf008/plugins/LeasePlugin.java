@@ -50,7 +50,6 @@ public class LeasePlugin implements IPlugin {
 
         System.out.println(">>> PLUGIN DE LOCAÇÃO: Fui carregado com sucesso!");
 
-//        dataController.getVehicleList("SUV");
         return true;
     }
 
@@ -257,7 +256,7 @@ public class LeasePlugin implements IPlugin {
                 startTimeSpinner.getValue()
         );
 
-        IRental dto = core.buildRental(
+        RentalDTO dto = new RentalDTO(
                 emails.getValue(),
                 vehicles.getValue(),
                 selectedVehicle.getId(),
@@ -271,7 +270,7 @@ public class LeasePlugin implements IPlugin {
         showConfirmationWindow(dto);
     }
 
-    private void showConfirmationWindow(IRental dto) {
+    private void showConfirmationWindow(RentalDTO dto) {
 
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);

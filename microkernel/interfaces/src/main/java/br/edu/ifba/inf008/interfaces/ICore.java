@@ -13,8 +13,6 @@ public abstract class ICore
     public abstract IDataController getDataController();
     public abstract IVehicleTypePluginController getVehicleTypePluginController();
     public abstract IVehicle buildNewVehicle(String id, String make, String model, String year, String fuel_type, String transmission, String mileage);
-    public abstract IRental buildRental(String email, String type_name, String vehicle_id, String start_date, String scheduled_end_date, String pickup_location, String base_rate, String insurance_fee);
 
-
-        protected static ICore instance = null;
+    protected static ICore instance = null;
 }

@@ -14,7 +14,7 @@
         <module>plugins/myplugin</module>
         <module>plugins/leaseplugin</module>
         <module>plugins/suvplugin</module>
-        <module>plugins/economicplugin</module>
+        <module>plugins/economyplugin</module>
         <module>plugins/compactplugin</module>
         <module>plugins/vanplugin</module>
         <module>plugins/electricplugin</module>

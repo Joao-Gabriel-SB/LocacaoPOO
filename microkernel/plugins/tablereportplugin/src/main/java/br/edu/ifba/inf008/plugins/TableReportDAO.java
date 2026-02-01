@@ -12,8 +12,8 @@ public class TableReportDAO {
     private final ICore core = ICore.getInstance();
     private final IDataController dataController = core.getDataController();
 
-    public List<temporarydto> getValues() {
-        List<temporarydto> values = new ArrayList<>();
+    public List<TableRentalDTO> getValues() {
+        List<TableRentalDTO> values = new ArrayList<>();
 
         String sql = "SELECT \n" +
                 "    r.rental_id,\n" +
@@ -38,7 +38,7 @@ public class TableReportDAO {
 
                         while (rs.next()) {
                             values.add(
-                                    new temporarydto(
+                                    new TableRentalDTO(
                                             rs.getString("rental_id"),
                                             rs.getString("customer_name"),
                                             rs.getString("customer_type"),

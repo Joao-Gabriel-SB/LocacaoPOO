@@ -3,8 +3,8 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/microkernel/plugins/compactplugin/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/microkernel/plugins/compactplugin/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/microkernel/plugins/economicplugin/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/microkernel/plugins/economicplugin/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/microkernel/plugins/economyplugin/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/microkernel/plugins/economyplugin/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/microkernel/plugins/electricplugin/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/microkernel/plugins/electricplugin/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/microkernel/plugins/leaseplugin/src/main/java" charset="UTF-8" />
