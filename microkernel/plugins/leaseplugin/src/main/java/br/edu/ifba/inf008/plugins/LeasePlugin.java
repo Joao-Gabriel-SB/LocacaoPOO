@@ -34,7 +34,7 @@ public class LeasePlugin implements IPlugin {
 
         System.out.println(">>> PLUGIN DE LOCAÇÃO: Fui carregado com sucesso!");
 
-        dataController.getVehicleList("SUV");
+//        dataController.getVehicleList("SUV");
         return true;
     }
 
