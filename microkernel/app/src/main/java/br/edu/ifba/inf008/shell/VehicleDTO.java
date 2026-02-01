@@ -24,6 +24,8 @@ public class VehicleDTO implements IVehicle {
 //        this.type = type;
     }
 
+    public String getId() {return id;}
+
     public String getMake() {return make;}
 
     public String getModel() {return model;}

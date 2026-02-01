@@ -41,6 +41,10 @@ public class Core extends ICore {
         return new VehicleDTO(id,make,model,year,fuel_type,transmission,mileage);
     }
 
+    @Override
+    public IRental buildRental(String email, String type_name, String vehicle_id, String start_date, String scheduled_end_date, String pickup_location, String base_rate, String insurance_fee) {
+        return new RentalDTO(email, type_name, vehicle_id, start_date, scheduled_end_date, pickup_location, base_rate, insurance_fee);
+    }
 
     private final IAuthenticationController authenticationController = new AuthenticationController();
     private final IIOController ioController = new IOController();

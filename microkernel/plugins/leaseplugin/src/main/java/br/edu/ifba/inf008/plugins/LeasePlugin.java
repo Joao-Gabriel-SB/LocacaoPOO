@@ -7,17 +7,33 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.Scene;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 public class LeasePlugin implements IPlugin {
 
     private IUIController uiController;
     private IDataController dataController;
+    ICore core = ICore.getInstance();
     private IVehicleTypePluginController vehicleController;
     private RentalDAO dao;
     private TableView<IVehicle> table;
+
+    private ComboBox<String> emails;
+    private ComboBox<String> vehicles;
+    private TextField pickupLocationField;
+    private TextField baseRateField;
+    private TextField insuranceFeeField;
+
+    private DatePicker startDatePicker;
+    private DatePicker endDatePicker;
+    private Spinner<LocalTime> startTimeSpinner;
 
     public boolean init() {
 
@@ -47,18 +63,20 @@ public class LeasePlugin implements IPlugin {
                 createVehicleBox(),
                 createTableView(),
                 new Separator(),
-                createLabeledDatePicker("Início Locação:"),
-                createLabeledDatePicker("Fim Locação:"),
-                createLabeledTextField("Local Retirada:", "Ex: Downtown", 100),
-                createLabeledCurrencyField("Valor Diária:", "0.00"),
-                createLabeledCurrencyField("Valor Seguro:", "0.00"),
-                createConfirmButton()
+                createLabeledDateTimePicker("Início Locação:", true),
+                createLabeledDateTimePicker("Fim Locação:", false),
+                createLabeledTextField("Local Retirada:", "Ex: Downtown", 100)
         );
+
+        baseRateField = createLabeledCurrencyField("Valor Diária:", "0.00", layout);
+        insuranceFeeField = createLabeledCurrencyField("Valor Seguro:", "0.00", layout);
+
+        layout.getChildren().add(createConfirmButton());
         return layout;
     }
 
     private ComboBox<String> createEmailBox() {
-        ComboBox<String> emails = new ComboBox<>();
+        this.emails = new ComboBox<>();
         emails.setPromptText("Escolha um email:");
 
         try {
@@ -67,11 +85,11 @@ public class LeasePlugin implements IPlugin {
         } catch (Exception e) {
             System.err.println("Falha ao buscar emails: " + e.getMessage());
         }
-        return emails;
+        return this.emails;
     }
 
     private ComboBox<String> createVehicleBox() {
-        ComboBox<String> vehicles = new ComboBox<>();
+        this.vehicles = new ComboBox<>();
         vehicles.setPromptText("Escolha um carro");
 
         try {
@@ -86,7 +104,7 @@ public class LeasePlugin implements IPlugin {
         } catch (Exception e) {
             System.err.println("Erro ao buscar os carros: " + e.getMessage());
         }
-        return vehicles;
+        return this.vehicles;
     }
 
     private TableView<IVehicle> createTableView() {
@@ -115,59 +133,103 @@ public class LeasePlugin implements IPlugin {
         return this.table;
     }
 
-    private HBox createLabeledDatePicker(String labelText) {
+    private Spinner<LocalTime> createTimeSpinner() {
+        Spinner<LocalTime> spinner = new Spinner<>();
+
+        SpinnerValueFactory<LocalTime> valueFactory = new SpinnerValueFactory<>() {
+
+            {
+                setValue(LocalTime.now().withSecond(0).withNano(0));
+            }
+
+            @Override
+            public void decrement(int steps) {
+                setValue(getValue().minusMinutes(steps * 15));
+            }
+
+            @Override
+            public void increment(int steps) {
+                setValue(getValue().plusMinutes(steps * 15));
+            }
+        };
+
+        spinner.setValueFactory(valueFactory);
+        spinner.setEditable(true);
+        spinner.setPrefWidth(90);
+
+        return spinner;
+    }
+
+    private HBox createLabeledDateTimePicker(String labelText, boolean isStart) {
         Label label = new Label(labelText);
         label.setPrefWidth(120);
 
-        DatePicker datePicker = new DatePicker();
-        datePicker.setPrefWidth(250);
-        datePicker.setValue(LocalDate.now());
+        DatePicker datePicker = new DatePicker(LocalDate.now());
+        datePicker.setPrefWidth(160);
+
+        Spinner<LocalTime> timeSpinner = createTimeSpinner();
+        timeSpinner.setPrefWidth(90);
+
+        if (isStart) {
+            this.startDatePicker = datePicker;
+            this.startTimeSpinner = timeSpinner;
+        } else {
+            this.endDatePicker = datePicker;
+        }
 
         HBox hbox = new HBox(10);
         hbox.setAlignment(Pos.CENTER_LEFT);
-        hbox.getChildren().addAll(label, datePicker);
+
+        if (isStart) {
+            hbox.getChildren().addAll(label, datePicker, timeSpinner);
+        } else {
+            hbox.getChildren().addAll(label, datePicker);
+        }
+
         return hbox;
     }
 
-    private HBox createLabeledCurrencyField(String labelText, String prompt) {
+
+    private TextField createLabeledCurrencyField(String labelText, String prompt, VBox parent) {
         Label label = new Label(labelText);
         label.setPrefWidth(120);
 
-        TextField textField = new TextField();
-        textField.setPromptText(prompt);
-        textField.setPrefWidth(250);
+        TextField field = new TextField();
+        field.setPromptText(prompt);
+        field.setPrefWidth(250);
 
         String regex = "\\d{0,8}([\\.,]\\d{0,2})?";
-        textField.setTextFormatter(new TextFormatter<>(change ->
+        field.setTextFormatter(new TextFormatter<>(change ->
                 change.getControlNewText().matches(regex) ? change : null));
 
-        HBox hbox = new HBox(10);
+        HBox hbox = new HBox(10, label, field);
         hbox.setAlignment(Pos.CENTER_LEFT);
-        hbox.getChildren().addAll(label, textField);
-        return hbox;
+
+        parent.getChildren().add(hbox);
+
+        return field;
     }
 
     private HBox createLabeledTextField(String labelText, String prompt, int limit) {
         Label label = new Label(labelText);
         label.setPrefWidth(120);
 
-        TextField textField = new TextField();
-        textField.setPromptText(prompt);
-        textField.setPrefWidth(250);
+        this.pickupLocationField = new TextField();
+        pickupLocationField.setPromptText(prompt);
+        pickupLocationField.setPrefWidth(250);
 
-        textField.textProperty().addListener((obs, oldValue, newValue) -> {
-            if (newValue.length() > limit) textField.setText(oldValue);
+        pickupLocationField.textProperty().addListener((obs, oldValue, newValue) -> {
+            if (newValue.length() > limit) pickupLocationField.setText(oldValue);
         });
 
         HBox hbox = new HBox(10);
         hbox.setAlignment(Pos.CENTER_LEFT);
-        hbox.getChildren().addAll(label, textField);
+        hbox.getChildren().addAll(label, pickupLocationField);
         return hbox;
     }
 
     private Button createConfirmButton() {
-        Button confirmButton = new Button();
-        confirmButton.setText("Confirmar");
+        Button confirmButton = new Button("Confirmar");
         confirmButton.setMaxWidth(Double.MAX_VALUE);
         confirmButton.setPrefHeight(45);
         confirmButton.setStyle(
@@ -175,6 +237,72 @@ public class LeasePlugin implements IPlugin {
                         "-fx-text-fill: white;" +
                         "-fx-font-weight: bold;"
         );
+
+        confirmButton.setOnAction(e -> handleConfirm());
+
         return confirmButton;
+    }
+
+    private void handleConfirm() {
+
+        IVehicle selectedVehicle = table.getSelectionModel().getSelectedItem();
+
+        LocalDateTime startDate = LocalDateTime.of(
+                startDatePicker.getValue(),
+                startTimeSpinner.getValue()
+        );
+
+        LocalDateTime endDate = LocalDateTime.of(
+                endDatePicker.getValue(),
+                startTimeSpinner.getValue()
+        );
+
+        IRental dto = core.buildRental(
+                emails.getValue(),
+                vehicles.getValue(),
+                selectedVehicle.getId(),
+                startDate.toString(),
+                endDate.toString(),
+                pickupLocationField.getText(),
+                baseRateField.getText(),
+                insuranceFeeField.getText()
+        );
+
+        showConfirmationWindow(dto);
+    }
+
+    private void showConfirmationWindow(IRental dto) {
+
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setTitle("Confirmar Locação");
+
+        VBox layout = new VBox(10);
+        layout.setPadding(new Insets(20));
+
+        layout.getChildren().addAll(
+                new Label("Email: " + dto.getEmail()),
+                new Label("Veículo: " + dto.getVehicleId()),
+                new Label("Início: " + dto.getStartDate()),
+                new Label("Fim: " + dto.getScheduledEndDate()),
+                new Label("Local: " + dto.getPickupLocation()),
+                new Label("Diária: " + dto.getBaseRate()),
+                new Label("Seguro: " + dto.getInsuranceFee())
+        );
+
+        Button confirm = new Button("Confirmar");
+        Button cancel = new Button("Cancelar");
+
+        confirm.setOnAction(e -> {
+            // dao.save(dto); ← aqui você grava no banco
+            stage.close();
+        });
+
+        cancel.setOnAction(e -> stage.close());
+
+        layout.getChildren().add(new HBox(10, confirm, cancel));
+
+        stage.setScene(new Scene(layout));
+        stage.showAndWait();
     }
 }

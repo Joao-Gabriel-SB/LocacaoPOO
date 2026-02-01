@@ -1,6 +1,7 @@
 package br.edu.ifba.inf008.interfaces;
 
 public interface IVehicle {
+    String getId();
     String getMake();
     String getModel();
     String getYear();
