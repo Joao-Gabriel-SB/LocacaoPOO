@@ -215,6 +215,15 @@ public class LeasePlugin implements IPlugin {
         return Double.parseDouble(field.getText().replace(",", "."));
     }
 
+    private void refreshVehicleTable() {
+        String chosenType = vehicles.getValue();
+        if (chosenType == null || chosenType.isBlank()) return;
+
+        List<IVehicle> vehiclesList = dao.getVehiclesByType(chosenType);
+        table.getItems().setAll(vehiclesList); // atualiza de uma vez
+        table.getSelectionModel().clearSelection();
+    }
+
     private HBox createLabeledTextField(String labelText, String prompt, int limit) {
         Label label = new Label(labelText);
         label.setPrefWidth(120);
@@ -267,6 +276,11 @@ public class LeasePlugin implements IPlugin {
                     Alert.AlertType.WARNING,
                     "A Fim Locação deve ser pelo menos 1 dia após Início Locação."
             ).showAndWait();
+            return;
+        }
+
+        if (selectedVehicle == null) {
+            new Alert(Alert.AlertType.WARNING, "Selecione um veículo na tabela antes de confirmar.").showAndWait();
             return;
         }
 
@@ -332,13 +346,17 @@ public class LeasePlugin implements IPlugin {
         confirm.setOnAction(e -> {
             try {
                 int rentalId = dao.save(dto, totalAmount, selectedVehicle.getMileage());
+
+
+                refreshVehicleTable();
+
                 new Alert(Alert.AlertType.INFORMATION, "Locação criada! ID: " + rentalId).showAndWait();
                 stage.close();
             } catch (Exception ex) {
                 new Alert(Alert.AlertType.ERROR, "Erro ao salvar locação: " + ex.getMessage()).showAndWait();
             }
-            stage.close();
         });
+
 
         cancel.setOnAction(e -> stage.close());
 
