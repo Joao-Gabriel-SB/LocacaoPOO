@@ -288,6 +288,7 @@ public class LeasePlugin implements IPlugin {
 
         int days = (int) diff;
 
+
         double baseRate = parseMoney(baseRateField);
 
         String typeName = vehicles.getValue();
@@ -300,10 +301,10 @@ public class LeasePlugin implements IPlugin {
 
         double totalAmount = typePlugin.finalValue(days, baseRate, selectedVehicle);
 
-        showConfirmationWindow(dto, totalAmount, days);
+        showConfirmationWindow(dto, totalAmount, days, selectedVehicle);
     }
 
-    private void showConfirmationWindow(RentalDTO dto, double totalAmount, int days) {
+    private void showConfirmationWindow(RentalDTO dto, double totalAmount, int days, IVehicle selectedVehicle) {
 
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
@@ -329,7 +330,13 @@ public class LeasePlugin implements IPlugin {
         Button cancel = new Button("Cancelar");
 
         confirm.setOnAction(e -> {
-            // dao.save(dto); ← aqui você grava no banco
+            try {
+                int rentalId = dao.save(dto, totalAmount, selectedVehicle.getMileage());
+                new Alert(Alert.AlertType.INFORMATION, "Locação criada! ID: " + rentalId).showAndWait();
+                stage.close();
+            } catch (Exception ex) {
+                new Alert(Alert.AlertType.ERROR, "Erro ao salvar locação: " + ex.getMessage()).showAndWait();
+            }
             stage.close();
         });
 
