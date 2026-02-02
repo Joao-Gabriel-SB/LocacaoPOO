@@ -7,7 +7,6 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="interfaces" />
-        <module name="economyplugin" />
         <module name="vanplugin" />
         <module name="myplugin" />
         <module name="compactplugin" />

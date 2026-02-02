@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 public class LeasePlugin implements IPlugin {
@@ -209,6 +210,11 @@ public class LeasePlugin implements IPlugin {
         return field;
     }
 
+    private double parseMoney(TextField field) {
+        if (field == null || field.getText() == null || field.getText().isBlank()) return 0.0;
+        return Double.parseDouble(field.getText().replace(",", "."));
+    }
+
     private HBox createLabeledTextField(String labelText, String prompt, int limit) {
         Label label = new Label(labelText);
         label.setPrefWidth(120);
@@ -256,6 +262,14 @@ public class LeasePlugin implements IPlugin {
                 startTimeSpinner.getValue()
         );
 
+        if (endDate.isBefore(startDate.plusDays(1))) {
+            new Alert(
+                    Alert.AlertType.WARNING,
+                    "A Fim Locação deve ser pelo menos 1 dia após Início Locação."
+            ).showAndWait();
+            return;
+        }
+
         RentalDTO dto = new RentalDTO(
                 emails.getValue(),
                 vehicles.getValue(),
@@ -267,10 +281,29 @@ public class LeasePlugin implements IPlugin {
                 insuranceFeeField.getText()
         );
 
-        showConfirmationWindow(dto);
+        long diff = ChronoUnit.DAYS.between(
+                startDate.toLocalDate(),
+                endDate.toLocalDate()
+        );
+
+        int days = (int) diff;
+
+        double baseRate = parseMoney(baseRateField);
+
+        String typeName = vehicles.getValue();
+
+        IVehicleTypePlugin typePlugin = vehicleController.getPluginByType(typeName);
+        if (typePlugin == null) {
+            new Alert(Alert.AlertType.ERROR, "Plugin do tipo " + typeName + " não encontrado.").showAndWait();
+            return;
+        }
+
+        double totalAmount = typePlugin.finalValue(days, baseRate, selectedVehicle);
+
+        showConfirmationWindow(dto, totalAmount, days);
     }
 
-    private void showConfirmationWindow(RentalDTO dto) {
+    private void showConfirmationWindow(RentalDTO dto, double totalAmount, int days) {
 
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
@@ -286,7 +319,10 @@ public class LeasePlugin implements IPlugin {
                 new Label("Fim: " + dto.getScheduledEndDate()),
                 new Label("Local: " + dto.getPickupLocation()),
                 new Label("Diária: " + dto.getBaseRate()),
-                new Label("Seguro: " + dto.getInsuranceFee())
+                new Label("Seguro: " + dto.getInsuranceFee()),
+                new Label("Dias: " + days),
+                new Label("TOTAL: R$ " + String.format("%.2f", totalAmount))
+
         );
 
         Button confirm = new Button("Confirmar");
