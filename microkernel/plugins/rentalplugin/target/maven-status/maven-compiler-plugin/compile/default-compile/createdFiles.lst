@@ -1,0 +1,4 @@
+br/edu/ifba/inf008/plugins/RentalPlugin.class
+br/edu/ifba/inf008/plugins/RentalDTO.class
+br/edu/ifba/inf008/plugins/RentalDAO.class
+br/edu/ifba/inf008/plugins/RentalPlugin$1.class

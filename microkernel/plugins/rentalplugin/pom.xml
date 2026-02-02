@@ -10,7 +10,7 @@
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <artifactId>leaseplugin</artifactId>
+    <artifactId>rentalplugin</artifactId>
 
     <dependencies>
         <dependency>
@@ -31,7 +31,7 @@
                     <!-- Change the output directory -->
                     <outputDirectory>${project.basedir}/../</outputDirectory>
                     <!-- Change the JAR file name -->
-                    <finalName>LeasePlugin</finalName>
+                    <finalName>RentalPlugin</finalName>
                 </configuration>
             </plugin>
         </plugins>

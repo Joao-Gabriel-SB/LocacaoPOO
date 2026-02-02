@@ -25,12 +25,14 @@ public class PieReportPlugin implements IReportPlugin {
     public boolean init() {
         uiController = ICore.getInstance().getUIController();
         dao = new PieReportDAO();
-        values = dao.getAnalyticsData();
 
         MenuItem menuItem = uiController.createMenuItem("Relatório 1", "Relatório 1");
 
         menuItem.setOnAction(e ->
-                uiController.createTab("relatório 1", MainLayout())
+                {
+                    values = dao.getAnalyticsData();
+                    uiController.createTab("relatório 1", MainLayout());
+                }
         );
 
         return true;

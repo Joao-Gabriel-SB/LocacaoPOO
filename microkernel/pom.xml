@@ -12,7 +12,7 @@
         <module>interfaces</module>
         <module>app</module>
         <module>plugins/myplugin</module>
-        <module>plugins/leaseplugin</module>
+        <module>plugins/rentalplugin</module>
         <module>plugins/suvplugin</module>
         <module>plugins/economyplugin</module>
         <module>plugins/compactplugin</module>

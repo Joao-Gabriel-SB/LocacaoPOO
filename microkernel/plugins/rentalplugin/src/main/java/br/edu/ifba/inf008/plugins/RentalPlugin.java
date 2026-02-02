@@ -17,7 +17,7 @@ import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
-public class LeasePlugin implements IPlugin {
+public class RentalPlugin implements IPlugin {
 
     private IUIController uiController;
     private IDataController dataController;
